@@ -10,5 +10,7 @@ as the script
 
 
 <h1>Problems</h1>
-1. This script might end up following a lot of accounts  Now You can deal with this issue by running my other script  named InstaUnfollow Simultaneously with this one which will mass unfollow
+1. This script might end up following a lot of accounts  Now You can deal with this issue by running my other script  named InstaUnfollow Simultaneously with this one which will mass unfollow (https://github.com/freakH2O/InstaUnfollow) But make sure both scripts are in different folders to ensure there are no errors
+
+
 2. Can it be bannable?? It has  been specially designed to produce dynamic delays and make automation more humane i have used it for 24 hours straight and it gave me no errors or warnings about botting.
