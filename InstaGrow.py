@@ -86,8 +86,8 @@ for element in links:
     if element not in done:
         browser.get(element)
         time.sleep(3)
-        choiceToFollow=random.randint(0,10)
-        if choiceToFollow>5:
+        choiceToFollow=random.randint(0,100)
+        if choiceToFollow>90:
             findAndClickFollow()
         findAndClickFirstPicture()
         time.sleep(2)
