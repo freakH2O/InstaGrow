@@ -1,4 +1,5 @@
 import time
+import keyboard  
 import random
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -7,6 +8,13 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+
+options = Options()
+options.add_argument("start-maximized")
+options.add_argument("disable-infobars")
+options.add_argument("--disable-notifications")
+options.add_argument('user-data-dir= selenium')
+browser = webdriver.Chrome(chrome_options=options, executable_path=r'chromedriver.exe')
 
 
 def tryy(x):
@@ -50,54 +58,154 @@ def findAndClickFirstPicture():
         except Exception:
             g += 1
 
+
 def findAndClickLikeButton():
-    try:
-        spans = browser.find_elements_by_tag_name('span')
-        for element in spans:
-            if element.get_attribute('aria-label') == "Like":
-                element.click()
-    except Exception:
-        relay=True
+    buttons=browser.find_elements_by_tag_name('button')
+    for element in buttons:
+        print(element.text)
 
-def findAndIndexNewPeople(ListToIndexTo):
-  try:
-    linka = browser.find_elements_by_tag_name('a')
-    temp = []
-    for element in linka:
-        if (element.get_attribute('href') in temp) and ( element.get_attribute('href') not in ListToIndexTo) and '/p/' not in element.get_attribute('href'):
-            ListToIndexTo.append(element.get_attribute('href'))
-            print("Just Indexed "+element.get_attribute('href'))
+def findAndClickUnfollow():
+   g = 0
+   try:
+    realbut = []
+    buttons = browser.find_elements_by_tag_name('button')
+    for element in buttons:
+        realbut.append(element.text)
+
+
+
+    while g < len(realbut):
+        if realbut[g] == 'Following':
+            buttons[g].click()
+            g = len(realbut)
+            time.sleep(2)
         else:
-            temp.append(element.get_attribute('href'))
-  except Exception:
-      relay=True
-base=input("Enter The base account from which the automation will spread the \n Base Account should not be private and have followers and communitty \n similar to your target audience")
-options = Options()
-options.add_argument("start-maximized")
-options.add_argument("disable-infobars")
-options.add_argument("--disable-notifications")
-options.add_argument('user-data-dir= selenium')
-browser = webdriver.Chrome(chrome_options=options, executable_path=r'chromedriver.exe')
+            g += 1
+   except Exception:
+       g += 1
 
-links=[]
-links.append('https://www.instagram.com/'+base)
-done=[]
-for element in links:
-    if element not in done:
-        browser.get(element)
+def findAndClickUnfollow2():
+   g = 0
+   try:
+    realbut = []
+    buttons = browser.find_elements_by_tag_name('button')
+    for element in buttons:
+        realbut.append(element.text)
+
+
+
+    while g < len(realbut):
+        if realbut[g] == 'Unfollow':
+            buttons[g].click()
+            g = len(realbut)
+            time.sleep(2)
+        else:
+            g += 1
+   except Exception:
+       g += 1
+
+
+def ClickAndIndexFollowing(ListToIndexTo):
+    browser.find_element_by_xpath('/html/body/span/section/main/div/header/section/ul/li[3]/a').click()
+    time.sleep(7)
+    a=browser.find_elements_by_tag_name('a')
+    hrefs=[]
+    for element in a:
+      try:
+        if element.get_attribute('title') not in hrefs:
+            hrefs.append((element.get_attribute('title')))
+      except Exception:
+          relay=True
+    hrefs.pop(0)
+    #print(hrefs)
+    ListToIndexTo=hrefs 
+    return ListToIndexTo
+    
+
+
+seed='meme____machine___'#input("Enter Seed          ")
+
+browser.get("https://www.instagram.com/"+seed)
+time.sleep(10)
+lista=[]
+FinalList=ClickAndIndexFollowing(lista)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+FinalList.pop(0)
+
+
+#print(FinalList)
+RealFinalList=[]
+
+for element in FinalList:
+    browser.get("https://www.instagram.com/"+element)
+    time.sleep(2)
+    relay=True
+    while relay== True:   
+        if keyboard.is_pressed('right'):  
+            relay=False
+        elif keyboard.is_pressed('down'):
+            RealFinalList.append("https://www.instagram.com/"+element)
+            relay=False
+print(RealFinalList)
+g=0
+for element in RealFinalList:
+    browser.get(element)
+    time.sleep(5)
+    try:
+        findAndClickFollow()
         time.sleep(3)
-        choiceToFollow=random.randint(0,100)
-        if choiceToFollow>90:
-            findAndClickFollow()
         findAndClickFirstPicture()
-        time.sleep(2)
+        time.sleep(3)
         findAndClickLikeButton()
         time.sleep(2)
-        findAndIndexNewPeople(links)
-        time.sleep(random.randint(15, 30))
-        done.append(element)
+        browser.get(element)
+        time.sleep(3)
+        ClickAndIndexFollowing(RealFinalList)
+        g+=1
+        time.sleep(randint.int(0,10))
+        if g>2:
+            break
 
 
+
+
+
+    except:
+        relay=True   
+        g+=1
+
+
+with open("array.txt","a") as file:
+    for element in RealFinalList:
+        file.write(element+'\n')
+
+        
+
+            
+        
+            
+             
+
+    
 
 
 
